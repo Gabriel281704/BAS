@@ -6,6 +6,6 @@
 import machine
 
 ###########################################################################################
-# Comando para "printar" uma mensagem
+# Comando para "escrever" uma mensagem
 
 print("Hello World.")
