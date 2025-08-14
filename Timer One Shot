@@ -1,0 +1,33 @@
+#Timer One Shot (Temporizador de Disparo Único)
+# Permite ligar e desligar o led azul até que um disparo ocorra.
+###############################CONFIGURATION##############################################################
+
+from machine import Timer, Pin #Precisamos de uma nova biblioteca para usar o timer one-shot
+from utime import sleep
+###############################PINS##############################################################
+
+ledRed = Pin(0, Pin.OUT)
+ledBlue = Pin(13, Pin.OUT)
+button = Pin(16, Pin.IN, Pin.PULL_UP)
+###############################VARIABLES##############################################################
+
+temporizador = Timer()
+state= True
+###############################INICIALIZATION##############################################################
+ledRed.off()
+ledBlue.off()
+###############################FUNCTIONS##############################################################
+        
+def disparo(timer): #Define essa função
+    print("Disparou! Led azul desabilitado.")
+    ledBlue.off()
+    ledRed.on()
+    global state
+    state = False
+###############################MAIN##############################################################
+
+temporizador.init(period = 5000, mode = Timer.ONE_SHOT, callback = disparo)
+while(state):
+    if(button.value() == 0):
+        ledBlue.toggle()
+        sleep(0.5)
