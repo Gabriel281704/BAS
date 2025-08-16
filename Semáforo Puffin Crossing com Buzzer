@@ -1,0 +1,31 @@
+#Buzzer com botão
+#Ativa um buzzer em 1 de 4 possíveis níveis
+###############################CONFIGURATION##############################################################
+
+from machine import Pin, PWM #Biblioteca necessária para ativar o buzzer
+from utime import sleep
+###############################PINS##############################################################
+
+buzzer = PWM(Pin(16)) #Define o pino 16 como pino PWM
+button = Pin(15, Pin.IN, Pin.PULL_UP)
+###############################VARIABLES##############################################################
+
+nivel = 1 #Define o nível do som do buzzer
+###############################FUNCTIONS##############################################################
+
+def apito(ritmo):
+    for i in range(3):
+        buzzer.freq(2000)
+        buzzer.duty_u16(nivel*16384) #Permite escolher até 4 níveis(escala 0-65535)
+        sleep(0.2)
+        buzzer.duty_u16(0)
+###############################MAIN##############################################################
+        
+while True:
+    if(button.value() == 0):
+        apito(nivel)
+        nivel = nivel + 1
+        sleep(0.1)
+    if(nivel >= 5):
+        nivel = 1
+        
