@@ -1,0 +1,56 @@
+#Semáforo Puffin Crossing com Buzzer
+#Simula um semáforo puffin crossing com botoeira para pedestre e sinal  sonoro
+
+################################CONFIGURATION################################################################
+
+from machine import Pin, PWM
+from utime import sleep
+import _thread #Biblioteca necessária para criar um fluxo de execução secundário
+################################PINS################################################################
+
+buzzer = PWM(Pin(19))
+button = Pin(15, Pin.IN, Pin.PULL_UP)
+ledBlue = Pin(16, Pin.OUT)
+ledYellow = Pin(17, Pin.OUT)
+ledRed = Pin(18, Pin.OUT)
+################################VARIABLES################################################################
+
+global buttonState
+buttonState = False
+################################THREAD################################################################
+
+def buttonPressed():
+    global buttonState
+    while(True):
+        if(button.value() == 0):
+            buttonState = True
+        sleep(0.1)
+################################MAIN################################################################
+
+#Inicializa um fluxo de execução paralelo (thread secundária)
+_thread.start_new_thread(buttonPressed,())
+
+while(True):
+    if(buttonState == True):
+        ledRed.on()
+        for i in range(3): #Este bloco faz o buzzer apitar
+            buzzer.freq(2000)
+            buzzer.duty_u16(327680)
+            sleep(0.2)
+            buzzer.duty_u16(0)
+            sleep(0.2)
+        ledRed.off()
+        buttonState = False
+        
+    ledBlue.on()
+    sleep(1.5)
+    ledBlue.off()
+    
+    ledYellow.on()
+    sleep(0.75)
+    ledYellow.off()
+    
+    ledRed.on()
+    sleep(1.5)
+    ledRed.off()
+
