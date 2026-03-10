@@ -1,21 +1,14 @@
-# Blink: Faz o led interno da placa pico piscar
+# Blink: Faz o led da Pico piscar
+############################################################################
 
-###########################################################################################
+import machine # Biblioteca necessária para acessar o hardware da placa
+import utime # Biblioteca necessária para o controle de tempo
+############################################################################
 
-# É preciso importar uma biblioteca para fazer controle de tempo
+led = machine.Pin(25, machine.Pin.OUT) #O pino 25 é conectado ao led da placa
 
-import machine
-import utime
-###########################################################################################
-
-# O pino 25 é usado no led interno da placa...
-led = machine.Pin(25, machine.Pin.OUT)
-
-# Agora basta ligar e desligar o led com o passar do tempo
-
-while(True): # Garante uma repetição infinita do processo
-    led.value(0)
+while(True): # Garante uma loop infinito
+    led.value(0)		#Desliga o led
+    utime.sleep(0.4)	#Tempo de espera
+    led.value(1) 		#Liga o led
     utime.sleep(0.4)
-    led.value(1)
-    utime.sleep(0.4)
-
