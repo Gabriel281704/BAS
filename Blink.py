@@ -11,4 +11,4 @@ while(True): # Garante uma loop infinito
     led.value(0)		#Desliga o led
     utime.sleep(0.4)	#Tempo de espera
     led.value(1) 		#Liga o led
-    utime.sleep(0.4)
+    utime.sleep(0.4)    #Tempo de espera
